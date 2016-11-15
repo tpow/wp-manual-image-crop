@@ -72,6 +72,9 @@ The plugin includes actions that can be used by other plugins:
 Triggered after a crop has been successfully completed, immediately before the JSON response is sent to the browser. Provides $data (array) and $imageMetadata (array).
 
 == Changelog ==
+= 1.12.1 =
+* Better handling of undersized images
+
 = 1.12 =
 * Fixed 'streched images' issue
 
