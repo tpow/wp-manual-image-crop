@@ -133,7 +133,7 @@ class ManualImageCrop {
 				if ($editAttachment.length) {
 					$editAttachment.each(function(i, k) {
 						try {
-							var mRegexp = /\?post=([0-9]+)/; 
+							var mRegexp = /\?post=([0-9]+)/;
 							var match = mRegexp.exec(jQuery(this).attr('href'));
 							if (!jQuery(this).parent().find('.edit-attachment.crop-image').length && jQuery(this).parent().find('.pinkynail').attr('src').match(/upload/g)) {
 								jQuery(this).after( '<a class="thickbox mic-link edit-attachment crop-image" rel="crop" title="<?php _e("Manual Image Crop","microp"); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + match[1] + '"><?php _e('Crop Image','microp') ?></a>' );
@@ -148,12 +148,12 @@ class ManualImageCrop {
 	</script>
 <?php
 	}
-	
+
 	private function filterPostData() {
 		$imageSizes = get_intermediate_image_sizes();
-	
+
 		$data = array(
-				'attachmentId' => filter_var($_POST['attachmentId'], FILTER_SANITIZE_NUMBER_INT),			
+				'attachmentId' => filter_var($_POST['attachmentId'], FILTER_SANITIZE_NUMBER_INT),
 				'editedSize' => in_array($_POST['editedSize'], $imageSizes) ? $_POST['editedSize'] : null,
 				'select' => array(
 							'x' => filter_var($_POST['select']['x'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION),
@@ -162,7 +162,7 @@ class ManualImageCrop {
 							'h' => filter_var($_POST['select']['h'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION),
 						),
 				'previewScale' => filter_var($_POST['previewScale'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION)
-				
+
 		);
 
 		if (isset($_POST['mic_quality'])) {
@@ -178,6 +178,26 @@ class ManualImageCrop {
 		return $data;
 	}
 
+	public function cropSuccess( $data, $dst_file_url, $silent_result = false ) {
+		// update 'mic_make2x' option status to persist choice
+		if ( isset( $data['make2x'] ) && $data['make2x'] !== get_option('mic_make2x') ) {
+			update_option('mic_make2x', $data['make2x']);
+		}
+
+		// trigger s3 sync
+		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
+			wp_update_attachment_metadata($data['attachmentId'], $imageMetadata);
+		}
+
+		//returns the url to the generated image (to allow refreshing the preview)
+		if ( $silent_result ) {
+			return;
+		} else {
+			echo json_encode(array('status' => 'ok', 'file' => $dst_file_url[0] ) );
+			exit;
+		}
+	}
+
 	/**
 	 * Callback function for plugin: amazon-s3-and-cloudfront
 	 */
@@ -191,7 +211,7 @@ class ManualImageCrop {
 
 	/**
 	 * Crops the image based on params passed in $_POST array
-	 * 
+	 *
 	 * Optional parameter $data can be used by plugins to call this method using previous configurations.
 	 *
 	 * @param null $data
@@ -207,7 +227,7 @@ class ManualImageCrop {
 
 		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
 			add_filter( 'as3cf_get_attached_file_copy_back_to_local', array( $this, 'get_attached_file_copy_back_to_local' ), 10, 3 );
-			
+
 			// This funciton is called to trigger the hook above
 			get_attached_file($data['attachmentId']);
 		}
@@ -215,8 +235,11 @@ class ManualImageCrop {
 		$dst_file_url = wp_get_attachment_image_src($data['attachmentId'], $data['editedSize']);
 
 		if (!$dst_file_url) {
-			if ( $silent_result ) return;
-			else exit;
+			if ( $silent_result ) {
+				return;
+			} else {
+				exit;
+			}
 		}
 
 		update_post_meta( $data['attachmentId'], '_mic_resizesize-' . $data['editedSize'], $data );
@@ -241,7 +264,7 @@ class ManualImageCrop {
 			if ( ! $src_file_url ) {
 				if ( $silent_result ) {
 					return;
-				}else{
+				} else {
 					echo json_encode( array( 'status' => 'error', 'message' => 'wrong attachment' ) );
 					exit;
 				}
@@ -251,19 +274,22 @@ class ManualImageCrop {
 			$dst_file = str_replace( $uploadsDir['baseurl'], $uploadsDir['basedir'], $dst_file_url[0] );
 		}
 
+		$dst_file = apply_filters( 'mic_dst_file_path', $dst_file, $data );
+		$dst_file_url[0] = apply_filters( 'mic_dst_file_url', $dst_file_url[0], $data );
+
 		//checks if the destination image file is present (if it's not, we want to create a new file, as the WordPress returns the original image instead of specific one)
 		if ($dst_file == $src_file) {
 			$attachmentData = wp_generate_attachment_metadata( $data['attachmentId'], $dst_file );
-				
+
 			//overwrite with previous values
 			$prevAttachmentData = wp_get_attachment_metadata($data['attachmentId']);
 			if (isset($prevAttachmentData['micSelectedArea'])) {
 				$attachmentData['micSelectedArea'] = $prevAttachmentData['micSelectedArea'];
 			}
-				
+
 			//saves new path to the image size in the database
 			wp_update_attachment_metadata( $data['attachmentId'],  $attachmentData );
-				
+
 			//new destination file path - replaces original file name with the correct one
 			$dst_file = str_replace( basename($attachmentData['file']), $attachmentData['sizes'][ $data['editedSize'] ]['file'], $dst_file);
 
@@ -283,7 +309,7 @@ class ManualImageCrop {
 		if (!$dst_w || !$dst_h) {
 			if ( $silent_result) {
 				return;
-			}else{
+			} else {
 				echo json_encode (array('status' => 'error', 'message' => 'wrong dimensions' ) );
 				exit;
 			}
@@ -325,6 +351,13 @@ class ManualImageCrop {
 		);
 		wp_update_attachment_metadata($data['attachmentId'], $imageMetadata);
 
+		$dims = array( $dst_x, $dst_y, $src_x, $src_y, $dst_w, $dst_h, $src_w, $src_h );
+		$do_crop = apply_filters( 'mic_do_crop', true, $imageMetadata, $dims );
+		if ( !$do_crop ) {
+			// Another plugin has already taken care of the cropping.
+			$this->cropSuccess( $data, $dst_file_url );
+		}
+
 		if ( function_exists('wp_get_image_editor') ) {
 
 			// get local file - possible improvement: change hooks, so one call is enough
@@ -343,7 +376,7 @@ class ManualImageCrop {
 				if ( is_wp_error( $saveStatus ) ) {
 					if ( $silent_result ) {
 						return;
-					}else{
+					} else {
 						echo json_encode( array( 'status' => 'error', 'message' => 'WP_ERROR: ' . $saveStatus->get_error_message() ) );
 						exit;
 					}
@@ -351,7 +384,7 @@ class ManualImageCrop {
 			}else {
 				if ( $silent_result ) {
 					return;
-				}else{
+				} else {
 					echo json_encode (array('status' => 'error', 'message' => 'WP_ERROR: ' . $img->get_error_message() ) );
 					exit;
 				}
@@ -360,8 +393,8 @@ class ManualImageCrop {
 			//determines what's the image format
 			$ext = pathinfo($src_file, PATHINFO_EXTENSION);
 			if ($ext == "gif"){
-				$src_img = imagecreatefromgif($src_file);
-			} else if($ext =="png"){
+				$src_img = imagecreatefromgif ($src_file);
+			} elseif ($ext =="png"){
 				$src_img = imagecreatefrompng($src_file);
 			} else {
 				$src_img = imagecreatefromjpeg($src_file);
@@ -370,7 +403,7 @@ class ManualImageCrop {
 			if ($src_img === false ) {
 				if ( $silent_result ) {
 					return;
-				}else{
+				} else {
 					echo json_encode (array('status' => 'error', 'message' => 'PHP ERROR: Cannot create image from the source file' ) );
 					exit;
 				}
@@ -382,7 +415,7 @@ class ManualImageCrop {
 			if ($resampleReturn === false ) {
 				if ( $silent_result ) {
 					return;
-				}else{
+				} else {
 					echo json_encode (array('status' => 'error', 'message' => 'PHP ERROR: imagecopyresampled' ) );
 					exit;
 				}
@@ -390,8 +423,8 @@ class ManualImageCrop {
 
 			$imageSaveReturn = true;
 			if ($ext == "gif"){
-				$imageSaveReturn = imagegif($dst_img, $dst_file);
-			} else if($ext =="png"){
+				$imageSaveReturn = imagegif ($dst_img, $dst_file);
+			} elseif ($ext =="png"){
 				$imageSaveReturn = imagepng($dst_img, $dst_file);
 			} else {
 				$imageSaveReturn = imagejpeg($dst_img, $dst_file, $quality);
@@ -400,7 +433,7 @@ class ManualImageCrop {
 			if ($imageSaveReturn === false ) {
 				if ( $silent_result ) {
 					return;
-				}else{
+				} else {
 					echo json_encode (array('status' => 'error', 'message' => 'PHP ERROR: imagejpeg/imagegif/imagepng' ) );
 					exit;
 				}
@@ -408,7 +441,7 @@ class ManualImageCrop {
 		}
 
 		// Generate Retina Image
-		if( isset( $data['make2x'] ) && $data['make2x'] === 'true' ) {
+		if ( isset( $data['make2x'] ) && $data['make2x'] === 'true' ) {
 			$dst_w2x = $dst_w * 2;
 			$dst_h2x = $dst_h * 2;
 
@@ -426,7 +459,7 @@ class ManualImageCrop {
 					}else {
 						if ( $silent_result ) {
 							return;
-						}else{
+						} else {
 							echo json_encode (array('status' => 'error', 'message' => 'WP_ERROR: ' . $img->get_error_message() ) );
 							exit;
 						}
@@ -438,7 +471,7 @@ class ManualImageCrop {
 					if ($resampleReturn === false ) {
 						if ( $silent_result ) {
 							return;
-						}else{
+						} else {
 							echo json_encode (array('status' => 'error', 'message' => 'PHP ERROR: imagecopyresampled' ) );
 							exit;
 						}
@@ -446,17 +479,17 @@ class ManualImageCrop {
 
 					$imageSaveReturn = true;
 					if ($ext == "gif"){
-						$imageSaveReturn = imagegif($dst_img2x, $dst_file2x);
-					} else if($ext =="png"){
+						$imageSaveReturn = imagegif ($dst_img2x, $dst_file2x);
+					} elseif ($ext =="png"){
 						$imageSaveReturn = imagepng($dst_img2x, $dst_file2x);
 					} else {
 						$imageSaveReturn = imagejpeg($dst_img2x, $dst_file2x, $quality);
 					}
-						
+
 					if ($imageSaveReturn === false ) {
 						if ( $silent_result ) {
 							return;
-						}else{
+						} else {
 							echo json_encode (array('status' => 'error', 'message' => 'PHP ERROR: imagejpeg/imagegif/imagepng' ) );
 							exit;
 						}
@@ -464,22 +497,11 @@ class ManualImageCrop {
 				}
 			}
 		}
-		// update 'mic_make2x' option status to persist choice
-		if( isset( $data['make2x'] ) && $data['make2x'] !== get_option('mic_make2x') ) {
-			update_option('mic_make2x', $data['make2x']);
-		}
 
-		// trigger s3 sync
-		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
-			wp_update_attachment_metadata($data['attachmentId'], $imageMetadata);
-		}
+		// run an action that other scripts can hook into, letting them
+		// know that the cropping is done for the given image
+		do_action('mic_crop_done', $data, $imageMetadata);
 
-		//returns the url to the generated image (to allow refreshing the preview)
-		if ( $silent_result ) {
-			return;
-		}else{
-			echo json_encode (array('status' => 'ok', 'file' => $dst_file_url[0] ) );
-			exit;
-		}
+		$this->cropSuccess( $data, $dst_file_url, $silent_result );
 	}
 }
