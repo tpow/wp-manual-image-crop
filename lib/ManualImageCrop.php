@@ -55,7 +55,7 @@ class ManualImageCrop {
 	 */
 	public function addMediaEditorLinks($links, $post) {
 		if (preg_match('/image/', $post->post_mime_type)) {
-			$links['crop'] = '<a class="thickbox mic-link" rel="crop" title="Manual Image Crop" href="' . admin_url( 'admin-ajax.php' ) . '?action=mic_editor_window&postId=' . $post->ID . '">' . __('Crop','microp') . '</a>';
+			$links['crop'] = '<a class="thickbox mic-link" rel="crop" title="' . esc_attr__('Manual Image Crop','microp') . '" href="' . admin_url( 'admin-ajax.php' ) . '?action=mic_editor_window&postId=' . $post->ID . '">' . __('Crop','microp') . '</a>';
 		}
 		return $links;
 	}
@@ -64,16 +64,16 @@ class ManualImageCrop {
 	 * Adds link below "Remove featured image" in post editing form
 	 */
 	public function addCropFeatureImageEditorLink($content, $post) {
-		$content .= '<a id="micCropFeatureImage" class="thickbox mic-link" rel="crop" title="' . __('Manual Image Crop','microp') . '" href="' . admin_url( 'admin-ajax.php' ) . '?action=mic_editor_window&postId=' . get_post_thumbnail_id($post) . '">' . __('Crop featured image','microp') . '</a>
+		$content .= '<a id="micCropFeatureImage" class="thickbox mic-link" rel="crop" title="' . esc_attr__('Manual Image Crop','microp') . '" href="' . admin_url( 'admin-ajax.php' ) . '?action=mic_editor_window&postId=' . get_post_thumbnail_id($post) . '">' . __('Crop featured image','microp') . '</a>
 		<script>
 		setInterval(function() {
-		if (jQuery(\'#remove-post-thumbnail\').is(\':visible\')) {
-		jQuery(\'#micCropFeatureImage\').show();
-	}else {
-	jQuery(\'#micCropFeatureImage\').hide();
-	}
-	}, 200);
-	</script>';
+			if (jQuery(\'#remove-post-thumbnail\').is(\':visible\')) {
+				jQuery(\'#micCropFeatureImage\').show();
+			} else {
+				jQuery(\'#micCropFeatureImage\').hide();
+			}
+		}, 200);
+		</script>';
 		return $content;
 	}
 
@@ -96,7 +96,7 @@ class ManualImageCrop {
 							var mRegexp = /\?post=([0-9]+)/;
 							var match = mRegexp.exec($mediaEditLink.attr('href'));
 							jQuery('.crop-image-ml.crop-image').remove();
-							$mediaEditLink.after( '<a class="thickbox mic-link crop-image-ml crop-image" rel="crop" title="<?php _e("Manual Image Crop","microp"); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + match[1] + '"><?php _e('Crop Image','microp') ?></a>' );
+							$mediaEditLink.after( '<a class="thickbox mic-link crop-image-ml crop-image" rel="crop" title="<?php esc_attr_e('Manual Image Crop','microp'); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + match[1] + '"><?php _e('Crop Image','microp'); ?></a>' );
 						} catch (e) {
 							console.log(e);
 						}
@@ -107,7 +107,7 @@ class ManualImageCrop {
 					try {
 						var postId = jQuery('.attachment-details').attr('data-id');
 						jQuery('.button.crop-image-ml.crop-image').remove();
-						jQuery('.button.edit-attachment').after( ' <a class="thickbox mic-link crop-image-ml crop-image button" rel="crop" title="<?php _e("Manual Image Crop","microp"); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + postId + '"><?php _e('Crop Image','microp') ?></a>' );
+						jQuery('.button.edit-attachment').after( ' <a class="thickbox mic-link crop-image-ml crop-image button" rel="crop" title="<?php esc_attr_e('Manual Image Crop','microp'); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + postId + '"><?php _e('Crop Image','microp'); ?></a>' );
 					} catch (e) {
 						console.log(e);
 					}
@@ -136,7 +136,7 @@ class ManualImageCrop {
 							var mRegexp = /\?post=([0-9]+)/;
 							var match = mRegexp.exec(jQuery(this).attr('href'));
 							if (!jQuery(this).parent().find('.edit-attachment.crop-image').length && jQuery(this).parent().find('.pinkynail').attr('src').match(/upload/g)) {
-								jQuery(this).after( '<a class="thickbox mic-link edit-attachment crop-image" rel="crop" title="<?php _e("Manual Image Crop","microp"); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + match[1] + '"><?php _e('Crop Image','microp') ?></a>' );
+								jQuery(this).after( '<a class="thickbox mic-link edit-attachment crop-image" rel="crop" title="<?php esc_attr_e('Manual Image Crop','microp'); ?>" href="' + ajaxurl + '?action=mic_editor_window&postId=' + match[1] + '"><?php _e('Crop Image','microp'); ?></a>' );
 							}
 						} catch (e) {
 							console.log(e);
@@ -377,7 +377,7 @@ class ManualImageCrop {
 						exit;
 					}
 				}
-			}else {
+			} else {
 				if ( $silent_result ) {
 					return;
 				} else {
@@ -452,7 +452,7 @@ class ManualImageCrop {
 						$img->crop( $src_x, $src_y, $src_w, $src_h, $dst_w2x, $dst_h2x, false );
 						$img->set_quality( $quality );
 						$img->save($dst_file2x);
-					}else {
+					} else {
 						if ( $silent_result ) {
 							return;
 						} else {

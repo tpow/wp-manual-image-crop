@@ -1,5 +1,5 @@
 var jcrop_api, mic_attachment_id, mic_edited_size, mic_preview_scale;
-	
+
 jQuery(document).ready(function($) {
 	//image sizes tabs
 	$(document).on('click', '.rm-crop-size-tab', function(e) {
@@ -9,7 +9,7 @@ jQuery(document).ready(function($) {
 			$('#TB_ajaxContent').html(data);
 		});
 	});
-	
+
 	$( document ).on('click', '#micCropImage', function() {
 		$('#micCropImage').hide();
 		$('#micLoading').show();
@@ -19,17 +19,17 @@ jQuery(document).ready(function($) {
 				newImage.src = response.file + '?' + Math.random();
 				var count = 0;
 				function updateImage() {
-				    if(newImage.complete) {
-				        $('img[src^="' + response.file + '"]').attr('src', newImage.src);
+					if (newImage.complete) {
+						$('img[src^="' + response.file + '"]').attr('src', newImage.src);
 						$('#micCropImage').show();
 						$('#micSuccessMessage').show().delay(5000).fadeOut();
 						$('#micLoading').hide();
-				    }else {
-					    setTimeout(updateImage, 200);
-				    }
+					} else {
+						setTimeout(updateImage, 200);
+					}
 				}
 				updateImage();
-			}else {
+			} else {
 				$('#micFailureMessage').show().delay(10000).fadeOut();
 				$('#micFailureMessage .error-message').html(response.message);
 				$('#micCropImage').show();
@@ -37,17 +37,17 @@ jQuery(document).ready(function($) {
 			}
 		}, 'json');
 	});
-	
+
 	 $('.mic-link').click( function() {
 		tb_position();
 	});
-	 
+
 	 $(document).on('click', '#TB_closeWindowButton, .TB_overlayBG', function(e) {
 		 $('#TB_overlay,#TB_window').remove();
 	 });
-	 
+
 	 function adjustMicWindowSize() {
-		 	if( ! $('#TB_ajaxContent .mic-editor-wrapper').length) {
+		 	if ( ! $('#TB_ajaxContent .mic-editor-wrapper').length) {
 		 		return;
 		 	}
 			var tbWindow = $('#TB_window'), width = $(window).width(), H = 560, W = ( 980 < width ) ? 980 : width, adminbar_height = 0;
@@ -63,7 +63,7 @@ jQuery(document).ready(function($) {
 					tbWindow.css({'top': 20 + adminbar_height + 'px','margin-top':'0'});
 			};
 	 }
-	 
+
 	 setInterval(adjustMicWindowSize, 200);
 
 	// Prompt to crop featured images automatically, if set in settings page

@@ -54,7 +54,7 @@ function _mic_find_plugin( $plugin_name ) {
 		if ( !is_plugin_active( $file ) ) continue;
 
 		if ( $plugin['Name'] == $plugin_name ) return array('file' => $file, 'plugin' => $plugin);
-		else if ( $plugin['Title'] == $plugin_name ) return array('file' => $file, 'plugin' => $plugin);
+		elseif ( $plugin['Title'] == $plugin_name ) return array('file' => $file, 'plugin' => $plugin);
 	}
 
 	return false;

@@ -50,14 +50,14 @@ class ManualImageCropEditorWindow {
 		$imageSizes = get_intermediate_image_sizes();
 
 		$editedSize = (isset($_GET['size']) && in_array($_GET['size'], $imageSizes)) ? $_GET['size'] : null;
-			
+
 		$postId = filter_var($_GET['postId'], FILTER_SANITIZE_NUMBER_INT);
-		
+
 		$sizeLabels = apply_filters( 'image_size_names_choose', array(
-				'thumbnail' => __('Thumbnail'),
-				'medium'    => __('Medium'),
-				'large'     => __('Large'),
-				'full'      => __('Full Size'),
+			'thumbnail' => __('Thumbnail'),
+			'medium'    => __('Medium'),
+			'large'     => __('Large'),
+			'full'      => __('Full Size'),
 		) );
 		$sizeLabels = apply_filters( 'image_size_names_choose', array() );
 
@@ -139,7 +139,7 @@ class ManualImageCropEditorWindow {
 		if ($sizes[1]  / 350 < $sizes[0] / 500) {
 			$previewHeight = $sizes[1] * $previewWidth / $sizes[0] ;
 			$previewRatio = $sizes[1] / $previewHeight;
-		}else {
+		} else {
 			$previewWidth = $sizes[0] * $previewHeight / $sizes[1];
 			$previewRatio = $sizes[0] / $previewWidth;
 		}
@@ -160,7 +160,7 @@ class ManualImageCropEditorWindow {
 			if ($minWidth / $aspectRatio > $previewHeight) {
 				$aspectRatio = $minWidth / $previewHeight;
 			}
-		}else {
+		} else {
 			$aspectRatio = $sizes[0] / $sizes[1];
 		}
 
@@ -170,7 +170,7 @@ class ManualImageCropEditorWindow {
 
 		if ($width > $height) {
 			$smallPreviewHeight = $smallPreviewWidth * 1/ $aspectRatio;
-		}else {
+		} else {
 			$smallPreviewWidth = $smallPreviewHeight * $aspectRatio;
 		}
 
@@ -181,22 +181,22 @@ class ManualImageCropEditorWindow {
 	</div>
 	<div class="mic-right-col">
 		<div>
-			<?php _e('Original picture dimensions:','microp') ?>
+			<?php _e('Original picture dimensions:','microp'); ?>
 			<strong><?php echo $original[0]; ?> x <?php echo $original[1]; ?> px</strong><br />
-			<?php _e('Target picture dimensions:','microp') ?>
+			<?php _e('Target picture dimensions:','microp'); ?>
 			<strong> <?php // ($width != $width2 or $height != $height2) echo $width.' x '.$height.' px ('.$width2.' x '.$height2.' px)';
 		//else
-                    echo $width.' x '.$height.' px'; ?>
-			</strong> (
-			<?php if ($cropMethod == 0) { 
+					echo $width.' x '.$height.' px'; ?>
+			</strong> (<?php
+			if ($cropMethod == 0) {
 				_e('Soft proportional crop mode','microp');
-			}else { _e('Hard crop mode','microp');
-} ?>
-			)
+			} else {
+				_e('Hard crop mode','microp');
+			} ?>)
 		</div>
 
 		<div class="mic-52-col">
-			<?php _e('New image:','microp') ?>
+			<?php _e('New image:','microp'); ?>
 			<br />
 			<div style="width: <?php echo $smallPreviewWidth; ?>px; height: <?php echo $smallPreviewHeight; ?>px; overflow: hidden; margin-left: 5px; float: right;">
 				<img id="preview"
@@ -214,12 +214,12 @@ class ManualImageCropEditorWindow {
 		</div>
 
 		<input id="micCropImage" class="button-primary button-large"
-			type="button" value="<?php _e('Crop it!','microp') ?>" /> <img
+			type="button" value="<?php esc_attr_e('Crop it!','microp'); ?>" /> <img
 			src="<?php echo includes_url(); ?>js/thickbox/loadingAnimation.gif"
 			id="micLoading" />
 
 
-		<?php 
+		<?php
 		$ext = strtolower( pathinfo($metaData["file"], PATHINFO_EXTENSION) );
 		if ($ext == 'jpg' || $ext == 'jpeg') {
 			echo '<div class="mic-option">';
@@ -228,23 +228,23 @@ class ManualImageCropEditorWindow {
 			echo '</div>';
 		}
 		?>
-		<?php 
-                if ( is_plugin_active('wp-retina-2x/wp-retina-2x.php') ) { ?>
+		<?php
+				if ( is_plugin_active('wp-retina-2x/wp-retina-2x.php') ) { ?>
 		<div class="mic-option">
 			<input type="checkbox" id="mic-make-2x"
-			<?php if(get_option('mic_make2x') === 'true' ) echo 'checked="checked"' ?> />
-			<label for="mic-make-2x"><?php _e('Generate Retina/HiDPI (@2x):', 'microp') ?>
+			<?php if (get_option('mic_make2x') === 'true' ) echo 'checked="checked"' ?> />
+			<label for="mic-make-2x"><?php _e('Generate Retina/HiDPI (@2x):', 'microp'); ?>
 				<span id="mic-2x-status"></span> </label>
 		</div>
-		<?php 
-	            } ?>
+		<?php
+				} ?>
 
 		<div id="micSuccessMessage" class="updated below-h2">
-			<?php _e('The image has been cropped successfully','microp') ?>
+			<?php _e('The image has been cropped successfully','microp'); ?>
 		</div>
 		<div id="micFailureMessage" class="error below-h2">
 			<span class="error-message"></span><br />
-			<?php _e('An Error has occured. Please try again or contact plugin\'s author.','microp') ?>
+			<?php _e('An Error has occured. Please try again or contact plugin\'s author.','microp'); ?>
 		</div>
 
 	</div>
@@ -254,20 +254,20 @@ class ManualImageCropEditorWindow {
 			mic_attachment_id = <?php echo $postId; ?>;
 			mic_edited_size = '<?php echo $editedSize; ?>';
 			mic_preview_scale = <?php echo $previewRatio; ?>;
-			
+
 			$('#mic-make-2x').change(function() {$('#mic-2x-status').toggle()});
-			
-			
-			setTimeout(function() { 
+
+
+			setTimeout(function() {
 				$('#jcrop_target').Jcrop({
 					onChange: showPreview,
 					onSelect: showPreview,
 					minSize: [<?php echo $minWidth; ?>, <?php echo $minHeight; ?>],
 					maxSize: [<?php echo $previewWidth; ?>, <?php echo $previewHeight; ?>],
 					<?php if ( isset( $metaData['micSelectedArea'][$editedSize] ) ) { ?>
-						setSelect: [<?php echo max(0, $metaData['micSelectedArea'][$editedSize]['x']) ?>, <?php echo max(0, $metaData['micSelectedArea'][$editedSize]['y']) ?>, <?php echo max(0, $metaData['micSelectedArea'][$editedSize]['x']) + $metaData['micSelectedArea'][$editedSize]['w']; ?>, <?php echo max(0, $metaData['micSelectedArea'][$editedSize]['y']) + $metaData['micSelectedArea'][$editedSize]['h']; ?>],
-					<?php }else { ?>
-						setSelect: [<?php echo max(0, ($previewWidth - ($previewHeight * $aspectRatio)) / 2) ?>, <?php echo max(0, ($previewHeight - ($previewWidth / $aspectRatio)) / 2) ?>, <?php echo $previewWidth * $aspectRatio; ?>, <?php echo $previewHeight; ?>],
+						setSelect: [<?php echo max(0, $metaData['micSelectedArea'][$editedSize]['x']); ?>, <?php echo max(0, $metaData['micSelectedArea'][$editedSize]['y']); ?>, <?php echo max(0, $metaData['micSelectedArea'][$editedSize]['x']) + $metaData['micSelectedArea'][$editedSize]['w']; ?>, <?php echo max(0, $metaData['micSelectedArea'][$editedSize]['y']) + $metaData['micSelectedArea'][$editedSize]['h']; ?>],
+					<?php } else { ?>
+						setSelect: [<?php echo max(0, ($previewWidth - ($previewHeight * $aspectRatio)) / 2); ?>, <?php echo max(0, ($previewHeight - ($previewWidth / $aspectRatio)) / 2); ?>, <?php echo $previewWidth * $aspectRatio; ?>, <?php echo $previewHeight; ?>],
 					<?php }?>
 					aspectRatio: <?php echo $aspectRatio; ?>,
 				}, function() {
@@ -285,14 +285,14 @@ class ManualImageCropEditorWindow {
 					marginLeft: '-' + Math.round(rx * coords.x) + 'px',
 					marginTop: '-' + Math.round(ry * coords.y) + 'px'
 				});
-				
+
 				var mic_2xok = Math.round(coords.w*mic_preview_scale) > (<?php echo $width; ?> * 2);
-				if(mic_2xok === true) {
-				  $('#mic-2x-status').toggleClass('mic-ok', mic_2xok).html("<?php _e('Compatible', 'microp') ?>");
+				if (mic_2xok === true) {
+				  $('#mic-2x-status').toggleClass('mic-ok', mic_2xok).html("<?php esc_attr_e('Compatible', 'microp'); ?>");
 				} else {
-				  $('#mic-2x-status').toggleClass('mic-ok', mic_2xok).html("<?php _e('Source too small', 'microp') ?>");
+				  $('#mic-2x-status').toggleClass('mic-ok', mic_2xok).html("<?php esc_attr_e('Source too small', 'microp'); ?>");
 				}
-				if($('#mic-make-2x').prop('checked')) $('#mic-2x-status').show();
+				if ($('#mic-make-2x').prop('checked')) $('#mic-2x-status').show();
 			}
 		});
 		</script>
