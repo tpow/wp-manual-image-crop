@@ -1,3 +1,4 @@
+#TB_load,
 #TB_window {
 	z-index: 260001 !important;
 }
@@ -98,6 +99,10 @@
 
 .mic-option {
 	margin-top: 10px;
+}
+
+input.micQuality {
+	width: 3.5em;
 }
 
 .attachment-info .mic-link.crop-image {
