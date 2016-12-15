@@ -108,7 +108,7 @@ class ManualImageCropEditorWindow {
 			$cropMethod = get_option($editedSize.'_crop');
 		}
 
-		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
+		if ( ManualImageCrop::as3cf_enabled() ) {
 			add_filter( 'as3cf_get_attached_file_copy_back_to_local', 'ManualImageCrop::get_attached_file_copy_back_to_local', 10, 3 );
 
 			// function get_attached_file is called to trigger the hook above

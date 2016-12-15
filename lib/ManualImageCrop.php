@@ -185,7 +185,7 @@ class ManualImageCrop {
 		}
 
 		// trigger s3 sync
-		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
+		if ( self::as3cf_enabled() ) {
 			wp_update_attachment_metadata($data['attachmentId'], $imageMetadata);
 		}
 
@@ -209,6 +209,12 @@ class ManualImageCrop {
 		}
 	}
 
+	static function as3cf_enabled() {
+		global $as3cf;
+		return is_plugin_active('wp-amazon-s3-and-cloudfront/wordpress-s3.php') || isset( $as3cf );
+	}
+
+
 	/**
 	 * Crops the image based on params passed in $_POST array
 	 *
@@ -225,7 +231,7 @@ class ManualImageCrop {
 
 		$imageMetadata = wp_get_attachment_metadata($data['attachmentId']);
 
-		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
+		if ( self::as3cf_enabled() ) {
 			add_filter( 'as3cf_get_attached_file_copy_back_to_local', array( $this, 'get_attached_file_copy_back_to_local' ), 10, 3 );
 
 			// This funciton is called to trigger the hook above
@@ -357,7 +363,7 @@ class ManualImageCrop {
 		if ( function_exists('wp_get_image_editor') ) {
 
 			// get local file - possible improvement: change hooks, so one call is enough
-			if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
+			if ( self::as3cf_enabled() ) {
 				$src_file = get_attached_file($data['attachmentId']);
 			}
 
