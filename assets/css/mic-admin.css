@@ -1,192 +1,192 @@
 #TB_load,
 #TB_window {
-	z-index: 260001 !important;
+    z-index: 260001 !important;
 }
 
 #TB_overlay {
-	z-index: 260000 !important;
+    z-index: 260000 !important;
 }
 
 .mic-editor-wrapper {
-	width: 940px;
+    width: 940px;
 }
 
 .mic-left-col {
-	float: left;
-	width: 500px;
-	margin-right: 20px;
+    float: left;
+    width: 500px;
+    margin-right: 20px;
 }
 
 .mic-right-col {
-	float: left;
-	width: 400px;
+    float: left;
+    width: 400px;
 }
 
 .mic-48-col {
-	width: 48%;
-	float: right;
-	margin: 20px 0px;
+    width: 48%;
+    float: right;
+    margin: 20px 0px;
 }
 
 .mic-52-col {
-	width: 48%;
-	float: left;
-	margin: 20px 0px;
+    width: 48%;
+    float: left;
+    margin: 20px 0px;
 }
 
 .mic-centred {
-	text-align: center;
+    text-align: center;
 }
 
 #micCropImage {
-	margin: auto !important;
-	display: block !important;
-	border-radius: 0;
+    margin: auto !important;
+    display: block !important;
+    border-radius: 0;
 }
 
 #micLoading {
-	display: none;
+    display: none;
 }
 
 /* Add clearfix */
 
 .mic-editor-header:after {
-	visibility: hidden;
-	display: block;
-	font-size: 0;
-	content: " ";
-	clear: both;
-	height: 0;
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
 }
 
 .mic-editor-header {
-	display: inline-block;
+    display: inline-block;
 }
 
 * html .mic-editor-header {
-	height: 1%;
+    height: 1%;
 }
 
 .mic-editor-header {
-	display: block;
+    display: block;
 }
 
 .mic-editor-wrapper h2 .nav-tab {
-	font-size: 16px;
-	padding: 4px;
+    font-size: 16px;
+    padding: 4px;
 }
 
 #micSuccessMessage, #micFailureMessage {
-	display: none;
+    display: none;
 }
 
 #mic-2x-status {
-	font-weight: bold;
-	display: none;
+    font-weight: bold;
+    display: none;
 }
 
 #mic-2x-status:before {
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	font: normal 20px/1 'dashicons';
-	vertical-align: top;
-	content: "\f158";
-	color: #dd3d36;
-	line-height: 0.8em;
+    display: inline-block;
+    -webkit-font-smoothing: antialiased;
+    font: normal 20px/1 'dashicons';
+    vertical-align: top;
+    content: "\f158";
+    color: #dd3d36;
+    line-height: 0.8em;
 }
 
 #mic-2x-status.mic-ok:before {
-	content: "\f147";
-	color: #7ad03a;
+    content: "\f147";
+    color: #7ad03a;
 }
 
 .crop-image {
-	margin-right: 10px;
+    margin-right: 10px;
 }
 
 .mic-settings-page .form-table th[scope="row"] {
-	display: none;
+    display: none;
 }
 
 .mic-editor-wrapper h4 {
-	float: left;
-	width: 100px;
-	margin-top: 0;
-	line-height: 11px;
+    float: left;
+    width: 100px;
+    margin-top: 0;
+    line-height: 11px;
 }
 
 .mic-editor-wrapper .nav-tab-wrapper {
-	float: left;
-	width: 820px;
+    float: left;
+    width: 820px;
 }
 
 .mic-option {
-	margin-top: 10px;
+    margin-top: 10px;
 }
 
 input.micQuality {
-	width: 3.5em;
+    width: 3.5em;
 }
 
 .attachment-info .mic-link.crop-image {
-	display: block;
-	text-decoration: none;
-	white-space: nowrap;
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .attachment-info .mic-link.crop-image {
-	display: block;
-	text-decoration: none;
-	white-space: nowrap;
+    display: block;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
 .mic-editor-wrapper h2 .nav-tab {
-	font-weight: 400;
-	font-size: 14px;
-	padding: 6px 12px;
+    font-weight: 400;
+    font-size: 14px;
+    padding: 6px 12px;
 
-	color: #21759b;
-	background: none;
-	border: none;
+    color: #21759b;
+    background: none;
+    border: none;
 }
 
 .mic-editor-wrapper h2 .nav-tab:hover {
-	color: #d54e21;
+    color: #d54e21;
 }
 
 .mic-editor-wrapper h2 .nav-tab-active {
-	color: #32373c;
-	background: #fff;
-	border: 1px solid #ddd;
-	border-bottom: none;
+    color: #32373c;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-bottom: none;
 }
 
 .mic-editor-wrapper h2 .nav-tab-active:hover {
-	color: #32373c;
+    color: #32373c;
 }
 
 .widefat.mic-table th {
-	padding: 8px 10px;
-	font-weight: 400;
+    padding: 8px 10px;
+    font-weight: 400;
 }
 
 .mic-table {
-	max-width: 1000px;
+    max-width: 1000px;
 }
 
 th.mic-size {
-	width: auto;
+    width: auto;
 }
 th.mic-visible {
-	width: 120px;
+    width: 120px;
 }
 th.mic-quality {
-	width: 300px;
+    width: 300px;
 }
 th.mic-label {
-	width: 240px;
+    width: 240px;
 }
 
 td.mic-size {
-	font-weight: 700;
+    font-weight: 700;
 }

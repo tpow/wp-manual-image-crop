@@ -27,44 +27,44 @@ add_option('mic_make2x', 'true'); //Add option so we can persist make2x choice a
  * inits the plugin
  */
 function mic_init_plugin() {
-	// we are gonna use our plugin in the admin area only, so ends here if it's a frontend
-	if (!is_admin()) return;
+    // we are gonna use our plugin in the admin area only, so ends here if it's a frontend
+    if (!is_admin()) return;
 
-	include_once(dirname(__FILE__) . '/lib/ManualImageCrop.php');
+    include_once(dirname(__FILE__) . '/lib/ManualImageCrop.php');
 
-	load_plugin_textdomain('microp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain('microp', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
-	$ManualImageCrop = ManualImageCrop::getInstance();
-	add_action( 'admin_enqueue_scripts', array($ManualImageCrop, 'enqueueAssets') );
-	$ManualImageCrop->addEditorLinks();
+    $ManualImageCrop = ManualImageCrop::getInstance();
+    add_action( 'admin_enqueue_scripts', array($ManualImageCrop, 'enqueueAssets') );
+    $ManualImageCrop->addEditorLinks();
 
-	//attach admin actions
-	add_action('wp_ajax_mic_editor_window', 'mic_ajax_editor_window');
-	add_action('wp_ajax_mic_crop_image', 'mic_ajax_crop_image');
+    //attach admin actions
+    add_action('wp_ajax_mic_editor_window', 'mic_ajax_editor_window');
+    add_action('wp_ajax_mic_crop_image', 'mic_ajax_crop_image');
 
-	// Support regenerate thumbnails to regenerate them at the specified size
-	if ( class_exists('RegenerateThumbnails') ) {
-		include_once( dirname(__FILE__) . '/extensions/regenerate-thumbnails.php' );
-	}
+    // Support regenerate thumbnails to regenerate them at the specified size
+    if ( class_exists('RegenerateThumbnails') ) {
+        include_once( dirname(__FILE__) . '/extensions/regenerate-thumbnails.php' );
+    }
 }
 
 /**
  * ajax call rendering the image cropping area
  */
 function mic_ajax_editor_window() {
-	include_once(dirname(__FILE__) . '/lib/ManualImageCropEditorWindow.php');
-	$ManualImageCropEditorWindow = ManualImageCropEditorWindow::getInstance();
-	$ManualImageCropEditorWindow->renderWindow();
-	exit;
+    include_once(dirname(__FILE__) . '/lib/ManualImageCropEditorWindow.php');
+    $ManualImageCropEditorWindow = ManualImageCropEditorWindow::getInstance();
+    $ManualImageCropEditorWindow->renderWindow();
+    exit;
 }
 
 /**
  * ajax call that does the cropping job and overrides the previous image version
  */
 function mic_ajax_crop_image() {
-	$ManualImageCrop = ManualImageCrop::getInstance();
-	$ManualImageCrop->cropImage();
-	exit;
+    $ManualImageCrop = ManualImageCrop::getInstance();
+    $ManualImageCrop->cropImage();
+    exit;
 }
 
 
@@ -72,9 +72,9 @@ function mic_ajax_crop_image() {
  * add settings link on plugin page
  */
 function mic_settings_link($links) {
-	$settings_link = '<a href="'. admin_url( 'options-general.php?page=Mic-setting-admin' ) .'">' . __('Settings') . '</a>';
-	array_unshift($links, $settings_link);
-	return $links;
+    $settings_link = '<a href="'. admin_url( 'options-general.php?page=Mic-setting-admin' ) .'">' . __('Settings') . '</a>';
+    array_unshift($links, $settings_link);
+    return $links;
 }
 
 $plugin = plugin_basename(__FILE__);
