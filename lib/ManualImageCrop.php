@@ -189,6 +189,10 @@ class ManualImageCrop {
 			wp_update_attachment_metadata($data['attachmentId'], $imageMetadata);
 		}
 
+		// run an action that other scripts can hook into, letting them
+		// know that the cropping is done for the given image
+		do_action('mic_crop_done', $data, $imageMetadata);
+
 		//returns the url to the generated image (to allow refreshing the preview)
 		if ( $silent_result ) {
 			return;
@@ -493,10 +497,6 @@ class ManualImageCrop {
 				}
 			}
 		}
-
-		// run an action that other scripts can hook into, letting them
-		// know that the cropping is done for the given image
-		do_action('mic_crop_done', $data, $imageMetadata);
 
 		$this->cropSuccess( $data, $dst_file_url, $silent_result );
 	}
