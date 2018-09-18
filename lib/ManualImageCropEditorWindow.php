@@ -108,7 +108,7 @@ class ManualImageCropEditorWindow {
 			$cropMethod = get_option($editedSize.'_crop');
 		}
 
-		if ( is_plugin_active('amazon-s3-and-cloudfront/wordpress-s3.php') ) {
+		if ( ManualImageCrop::as3cf_enabled() ) {
 			add_filter( 'as3cf_get_attached_file_copy_back_to_local', 'ManualImageCrop::get_attached_file_copy_back_to_local', 10, 3 );
 
 			// function get_attached_file is called to trigger the hook above
@@ -215,6 +215,12 @@ class ManualImageCropEditorWindow {
 			</div>
 		</div>
 
+		<?php if ( $original[0] < $width || $original[1] < $height ) : ?>
+
+		<strong style="font-weight: bold; color: red"><?php _e('Original is smaller than specified crop. Please upload a larger version.','microp'); ?></strong>
+
+		<?php else : ?>
+
 		<input id="micCropImage" class="button-primary button-large"
 			type="button" value="<?php esc_attr_e('Crop it!','microp'); ?>" /> <img
 			src="<?php echo includes_url(); ?>js/thickbox/loadingAnimation.gif"
@@ -248,6 +254,8 @@ class ManualImageCropEditorWindow {
 			<span class="error-message"></span><br />
 			<?php _e('An Error has occured. Please try again or contact plugin\'s author.','microp'); ?>
 		</div>
+
+		<?php endif ?>
 
 	</div>
 </div>
