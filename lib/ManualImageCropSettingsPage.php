@@ -167,6 +167,14 @@ class MicSettingsPage
 
 		foreach ($imageSizes as $s) {
 			$label = isset($sizeLabels[$s]) ? $sizeLabels[$s] : ucfirst( str_replace( '-', ' ', $s ) );
+
+			$sizeSettings = isset($sizesSettings[$s]) ? $sizesSettings[$s] : [];
+			$sizeSettings = wp_parse_args( $sizeSettings, array(
+				'quality'    => 80,
+				'visibility' => null,
+				'label'      => null,
+			) );
+
 			if (isset($_wp_additional_image_sizes[$s])) {
 				$cropMethod = $_wp_additional_image_sizes[$s]['crop'];
 			} else {
@@ -177,18 +185,14 @@ class MicSettingsPage
 				continue;
 			}
 
-			if ( empty($sizesSettings[$s]['quality']) && $sizesSettings[$s]['quality'] !== 0 ) {
-				$sizesSettings[$s]['quality'] = 80; // Default
-			}
-
 			echo '<tr>
 				 <td class="mic-size">' . $label. '</td>
 				 <td class="mic-visible"><select name="mic_options[sizes_settings][' . $s . '][visibility]">
-	 					<option value="visible">' . __('Yes', 'microp') . '</option>
-	 					<option value="hidden" ' . ( $sizesSettings[$s]['visibility'] == 'hidden' ? 'selected' : '' ) . '>' . __('No', 'microp') . '</option>
+						<option value="visible">' . __('Yes', 'microp') . '</option>
+						<option value="hidden" ' . ( $sizeSettings['visibility'] == 'hidden' ? 'selected' : '' ) . '>' . __('No', 'microp') . '</option>
 					</select></td>
-				 <td class="mic-quality"><input type="number" pattern="[0-9\.]+" min="0" max="100" step="1" class="micQuality" name="mic_options[sizes_settings][' . $s . '][quality]" value="'. esc_attr( $sizesSettings[$s]['quality'] ) .'"> %</td>
-				 <td class="mic-label"><input name="mic_options[sizes_settings][' . $s . '][label]" type="text" placeholder="' . $label . '" value="' . str_replace('"', '&quot;', $sizesSettings[$s]['label']) .  '"/></td>
+				 <td class="mic-quality"><input type="number" pattern="[0-9\.]+" min="0" max="100" step="1" class="micQuality" name="mic_options[sizes_settings][' . $s . '][quality]" value="'. esc_attr( $sizeSettings['quality'] ) .'"> %</td>
+				 <td class="mic-label"><input name="mic_options[sizes_settings][' . $s . '][label]" type="text" placeholder="' . $label . '" value="' . esc_attr($sizeSettings['label']) .  '"/></td>
 			</tr>';
 		}
 		echo '</tbody></table>';
