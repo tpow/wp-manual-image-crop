@@ -77,11 +77,11 @@ class ManualImageCrop {
      */
     public function addAttachmentEditLink() { ?>
 <script>
-        var micEditAttachemtnLinkAdded = false;
-        var micEditAttachemtnLinkAddedInterval = 0;
+        var micEditAttachmentLinkAdded = false;
+        var micEditAttachmentLinkAddedInterval = 0;
 
         jQuery(document).ready(function() {
-            micEditAttachemtnLinkAddedInterval = setInterval(function() {
+            micEditAttachmentLinkAddedInterval = setInterval(function() {
                 var $mediaEditLink = jQuery('.details .edit-attachment');
 
                 if ($mediaEditLink.length) {
@@ -119,10 +119,10 @@ class ManualImageCrop {
     public function addAfterUploadAttachmentEditLink() {
         ?>
 <script>
-        var micEditAttachemtnLinkAdded = false;
-        var micEditAttachemtnLinkAddedInterval = 0;
+        var micEditAttachmentLinkAdded = false;
+        var micEditAttachmentLinkAddedInterval = 0;
         jQuery(document).ready(function() {
-            micEditAttachemtnLinkAddedInterval = setInterval(function() {
+            micEditAttachmentLinkAddedInterval = setInterval(function() {
                 var $editAttachment = jQuery('#media-items').find('.edit-attachment');
 
                 if ($editAttachment.length) {
