@@ -47,7 +47,12 @@ function mic_check_conflicting_plugins() {
  */
 function _mic_find_plugin( $plugin_name ) {
     static $all_plugins = null;
-    if ( $all_plugins === null ) $all_plugins = get_plugins();
+    if ( $all_plugins === null ) {
+        if ( ! function_exists( 'get_plugins' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+        $all_plugins = get_plugins();
+    }
 
     // Check if plugin name or title matches, return plugin info
     foreach($all_plugins as $file => $plugin) {
