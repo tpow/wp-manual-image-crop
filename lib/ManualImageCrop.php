@@ -41,8 +41,8 @@ class ManualImageCrop {
     public function addEditorLinks() {
         add_action( 'media_row_actions', array($this, 'addMediaEditorLinks'), 10, 2 );
         add_action( 'admin_post_thumbnail_html', array($this, 'addCropFeatureImageEditorLink'), 10, 2 );
-        add_action( 'print_media_templates', array($this, 'addAttachementEditLink') );
-        add_action( 'admin_print_footer_scripts', array($this, 'addAfterUploadAttachementEditLink') );
+        add_action( 'print_media_templates', array($this, 'addAttachmentEditLink') );
+        add_action( 'admin_print_footer_scripts', array($this, 'addAfterUploadAttachmentEditLink') );
     }
 
     /**
@@ -75,7 +75,7 @@ class ManualImageCrop {
     /**
      * Adds link in the ligthbox media library
      */
-    public function addAttachementEditLink() { ?>
+    public function addAttachmentEditLink() { ?>
 <script>
         var micEditAttachemtnLinkAdded = false;
         var micEditAttachemtnLinkAddedInterval = 0;
@@ -116,7 +116,7 @@ class ManualImageCrop {
     /**
      * Adds link in the ligthbox media library
      */
-    public function addAfterUploadAttachementEditLink() {
+    public function addAfterUploadAttachmentEditLink() {
         ?>
 <script>
         var micEditAttachemtnLinkAdded = false;
