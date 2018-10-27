@@ -118,7 +118,7 @@ class ManualImageCropEditorWindow {
         $metaData = wp_get_attachment_metadata($postId);
 
         if (!$metaData) {
-            echo json_encode (array('status' => 'error', 'message' => 'could not get metadata for attachement(' . $postId . ') try reuploading the file' ) );
+            echo json_encode (array('status' => 'error', 'message' => 'could not get metadata for attachment(' . $postId . ') try reuploading the file' ) );
             exit;
         }
 
