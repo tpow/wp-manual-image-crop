@@ -1,0 +1,25 @@
+{
+    "type": "wordpress-plugin",
+    "name": "mcaskill/wp-manual-image-crop",
+    "description": "Manually crop all image sizes registered by your WordPress theme.",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Tomasz Sita",
+            "homepage": "https://github.com/tomaszsita"
+        },
+        {
+            "name": "Chauncey McAskill",
+            "email": "chauncey@mcaskill.ca"
+        }
+    ],
+    "require": {
+        "php": ">=5.2",
+        "composer/installers": "^1.5"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.13-dev"
+        }
+    }
+}
