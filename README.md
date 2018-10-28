@@ -53,7 +53,7 @@ Triggered after a crop has been successfully completed, immediately before the J
 * German (Bertram Greenhough)
 * Hungarian (Roland Kal)
 * Italian (Alessandro Curci)
-* Polish (myself)
+* Polish (Tomasz Sita, Maciej Gryniuk)
 * Russian (Andrey Hohlov)
 * Slovak (Patrik Benyak)
 * Spanish (Andrew Kurtis)

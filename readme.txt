@@ -36,7 +36,7 @@ https://github.com/mcaskill/wp-manual-image-crop
 * German (Bertram Greenhough)
 * Hungarian (Roland Kal)
 * Italian (Alessandro Curci)
-* Polish (myself)
+* Polish (Tomasz Sita, Maciej Gryniuk)
 * Russian (Andrey Hohlov)
 * Slovak (Patrik Benyak)
 * Spanish (Andrew Kurtis)
@@ -82,6 +82,7 @@ Triggered after a crop has been successfully completed, immediately before the J
 * Added warnings about conflicting plugins
 * Removed distributed vendor packages and instead using versions included with WordPress
 * Danish and Slovak translations added
+* Polish translation updated
 * Code cleanup
 
 = 1.12.1 =
