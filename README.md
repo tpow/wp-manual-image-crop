@@ -47,12 +47,14 @@ Triggered after a crop has been successfully completed, immediately before the J
 
 # Translations
 
+* Danish (Jan Francke-Larsen)
 * Dutch (Bernardo Hulsman)
 * French (Gabriel Féron)
 * German (Bertram Greenhough)
 * Hungarian (Roland Kal)
 * Italian (Alessandro Curci)
-* Polish (myself)
+* Polish (Tomasz Sita, Maciej Gryniuk)
 * Russian (Andrey Hohlov)
+* Slovak (Patrik Benyak)
 * Spanish (Andrew Kurtis)
 * Swedish (Karl Oskar Mattsson)
