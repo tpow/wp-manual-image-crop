@@ -47,6 +47,7 @@ Triggered after a crop has been successfully completed, immediately before the J
 
 # Translations
 
+* Danish (Jan Francke-Larsen)
 * Dutch (Bernardo Hulsman)
 * French (Gabriel Féron)
 * German (Bertram Greenhough)
@@ -54,5 +55,6 @@ Triggered after a crop has been successfully completed, immediately before the J
 * Italian (Alessandro Curci)
 * Polish (myself)
 * Russian (Andrey Hohlov)
+* Slovak (Patrik Benyak)
 * Spanish (Andrew Kurtis)
 * Swedish (Karl Oskar Mattsson)

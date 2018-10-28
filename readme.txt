@@ -1,8 +1,8 @@
 === Manual Image Crop ===
 Contributors: tomasz.sita, mcaskill
 Tags: crop, cropping, thumbnail, featured image, gallery, images, picture, image, image area
-Tested up to: 4.3.1
-Requires at least: 3.5
+Tested up to: 4.9.8
+Requires at least: 4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WB5ZQWGUM7T96
@@ -30,6 +30,7 @@ Thank you!
 https://github.com/mcaskill/wp-manual-image-crop
 
 = Translations =
+* Danish (Jan Francke-Larsen)
 * Dutch (Bernardo Hulsman)
 * French (Gabriel Féron)
 * German (Bertram Greenhough)
@@ -37,6 +38,7 @@ https://github.com/mcaskill/wp-manual-image-crop
 * Italian (Alessandro Curci)
 * Polish (myself)
 * Russian (Andrey Hohlov)
+* Slovak (Patrik Benyak)
 * Spanish (Andrew Kurtis)
 * Swedish (Karl Oskar Mattsson)
 
@@ -73,6 +75,15 @@ The plugin includes actions that can be used by other plugins:
 Triggered after a crop has been successfully completed, immediately before the JSON response is sent to the browser. Provides $data (array) and $imageMetadata (array).
 
 == Changelog ==
+= 1.13 =
+* Fixed thickbox bug where crop preview was scrolled off screen (WP 4.7)
+* Filters added (Ryan DeBeasi)
+* Action mic_crop_done added (Joey Line)
+* Added warnings about conflicting plugins
+* Removed distributed vendor packages and instead using versions included with WordPress
+* Danish and Slovak translations added
+* Code cleanup
+
 = 1.12.1 =
 * Better handling of undersized images
 
