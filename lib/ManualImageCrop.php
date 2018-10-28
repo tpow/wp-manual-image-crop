@@ -33,6 +33,7 @@ class ManualImageCrop {
         wp_enqueue_style( 'rct-admin' );
 
         wp_enqueue_script( 'miccrop', plugins_url('assets/js/microp.js', dirname( __FILE__ )), array( 'jquery', 'jquery-color', 'jcrop' ), mic_VERSION );
+        wp_enqueue_style( 'jcrop' );
     }
 
     /**
